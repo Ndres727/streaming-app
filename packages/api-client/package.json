@@ -1,0 +1,17 @@
+{
+  "name": "@streaming/api-client",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@streaming/shared-types": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

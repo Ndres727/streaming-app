@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  refreshTokens  RefreshToken[]
+  playlists      Playlist[]
+  favorites      Favorite[]
+  recentlyPlayed RecentlyPlayed[]
+  downloads      Download[]
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  token     String   @unique
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+model Song {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  artist    String
+  album     String   @default("Unknown Album")
+  duration  Int
+  coverUrl  String?
+  audioUrl  String
+  hlsUrl    String?
+  genres    String[]
+  status    String   @default("processing") // processing | ready | error
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  playlistSongs PlaylistSong[]
+  favorites     Favorite[]
+  recentlyPlayed RecentlyPlayed[]
+  downloads      Download[]
+
+  @@index([title])
+  @@index([artist])
+  @@index([title, artist])
+}
+
+model Playlist {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  description String?
+  coverUrl    String?
+  isPublic    Boolean  @default(true)
+  ownerId     String   @db.Uuid
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  songs PlaylistSong[]
+
+  @@index([ownerId])
+  @@index([isPublic])
+}
+
+model PlaylistSong {
+  id         String   @id @default(uuid()) @db.Uuid
+  playlistId String   @db.Uuid
+  songId     String   @db.Uuid
+  position   Int
+  addedAt    DateTime @default(now())
+
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song     Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, songId])
+  @@index([playlistId])
+  @@index([songId])
+}
+
+model Favorite {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  songId String @db.Uuid
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  song Song @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, songId])
+  @@index([userId])
+}
+
+model RecentlyPlayed {
+  id      String   @id @default(uuid()) @db.Uuid
+  userId  String   @db.Uuid
+  songId  String   @db.Uuid
+  playedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  song Song @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@index([userId, playedAt])
+  @@index([userId])
+}
+
+model Download {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @db.Uuid
+  songId       String   @db.Uuid
+  localUri     String?
+  downloadedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  song Song @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, songId])
+  @@index([userId])
+}
