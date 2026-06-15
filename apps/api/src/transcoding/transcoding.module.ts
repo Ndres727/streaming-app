@@ -7,6 +7,6 @@ export const TRANSCODE_QUEUE = 'transcode';
 @Module({
   imports: [BullModule.registerQueue({ name: TRANSCODE_QUEUE })],
   providers: [TranscodingService],
-  exports: [TranscodingService, BullModule],
+  exports: [TranscodingService],
 })
 export class TranscodingModule {}
