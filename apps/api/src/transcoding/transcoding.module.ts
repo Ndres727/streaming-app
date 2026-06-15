@@ -1,12 +1,21 @@
 import { Module } from '@nestjs/common';
-import { BullModule } from '@nestjs/bullmq';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Queue } from 'bullmq';
 import { TranscodingService } from './transcoding.service';
 
 export const TRANSCODE_QUEUE = 'transcode';
 
 @Module({
-  imports: [BullModule.registerQueue({ name: TRANSCODE_QUEUE })],
-  providers: [TranscodingService],
-  exports: [TranscodingService],
+  imports: [ConfigModule],
+  providers: [
+    TranscodingService,
+    {
+      provide: 'BullQueue_transcode',
+      useFactory: (config: ConfigService) =>
+        new Queue('transcode', { connection: { url: config.get('REDIS_URL', 'redis://localhost:6379') } }),
+      inject: [ConfigService],
+    },
+  ],
+  exports: [TranscodingService, 'BullQueue_transcode'],
 })
 export class TranscodingModule {}
