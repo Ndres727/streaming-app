@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { BullModule } from '@nestjs/bullmq';
 import { PrismaModule } from './prisma/prisma.module';
 import { StorageModule } from './storage/storage.module';
 import { AuthModule } from './auth/auth.module';
@@ -18,6 +19,12 @@ import { DownloadsModule } from './downloads/downloads.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '../../.env',
+    }),
+    BullModule.forRootAsync({
+      useFactory: (config: ConfigService) => ({
+        connection: { url: config.get('REDIS_URL', 'redis://localhost:6379') },
+      }),
+      inject: [ConfigService],
     }),
     PrismaModule,
     StorageModule,
