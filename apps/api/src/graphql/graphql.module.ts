@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Request } from 'express';
 import { join } from 'path';
 import { AuthModule } from '../auth/auth.module';
 import { SongsModule } from '../songs/songs.module';
@@ -15,7 +16,7 @@ import { PlaylistResolver } from './resolvers/playlist.resolver';
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
       playground: true,
       sortSchema: true,
-      context: ({ req }) => ({ req }),
+      context: ({ req }: { req: Request }) => ({ req }),
     }),
     AuthModule,
     SongsModule,
