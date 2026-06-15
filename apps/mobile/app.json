@@ -9,7 +9,9 @@
     "splash": {
       "backgroundColor": "#09090b"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.streaming.app"
@@ -19,6 +21,12 @@
         "backgroundColor": "#09090b"
       },
       "package": "com.streaming.app"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b8cdb5a4-916a-4c6d-9387-e942d4bffb9c"
+      }
+    },
+    "owner": "ndres727"
   }
 }
