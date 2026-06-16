@@ -2,6 +2,7 @@
   "name": "@streaming/mobile",
   "version": "0.0.1",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "postinstall": "cd ../../ && yarn install --ignore-scripts && yarn workspace @streaming/shared-types build && yarn workspace @streaming/api-client build",
     "eas-build-pre-install": "node scripts/eas-pre-install.js",
