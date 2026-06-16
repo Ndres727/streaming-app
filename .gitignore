@@ -10,3 +10,4 @@ dist/
 coverage/
 .turbo/
 expo-env.d.ts
+package-lock.json
