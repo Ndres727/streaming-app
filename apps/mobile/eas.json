@@ -17,7 +17,10 @@
         "buildType": "apk"
       },
       "node": "20.18.0",
-      "channel": "preview"
+      "channel": "preview",
+      "env": {
+        "EAS_BUILD_SKIP_LOCKFILE_CHECK": "1"
+      }
     },
     "production": {
       "android": {
