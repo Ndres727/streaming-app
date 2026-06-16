@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "yarn workspace @streaming/shared-types build && yarn workspace @streaming/api-client build",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
