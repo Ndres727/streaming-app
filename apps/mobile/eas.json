@@ -7,24 +7,26 @@
       "developmentClient": true,
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "ubuntu-22.04-jdk-17-ndk-r21e"
       },
       "node": "20.18.0"
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "ubuntu-22.04-jdk-17-ndk-r21e"
       },
       "node": "20.18.0",
-      "channel": "preview",
       "env": {
         "EAS_BUILD_SKIP_LOCKFILE_CHECK": "1"
       }
     },
     "production": {
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "app-bundle",
+        "image": "ubuntu-22.04-jdk-17-ndk-r21e"
       },
       "node": "20.18.0"
     }
