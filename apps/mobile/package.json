@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "yarn workspace @streaming/shared-types build && yarn workspace @streaming/api-client build",
+    "postinstall": "cd ../../ && yarn install --ignore-scripts && yarn workspace @streaming/shared-types build && yarn workspace @streaming/api-client build",
+    "eas-build-pre-install": "node scripts/eas-pre-install.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
