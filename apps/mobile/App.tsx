@@ -18,6 +18,7 @@ import FavoritesScreen from './src/screens/FavoritesScreen';
 import AlbumsScreen from './src/screens/AlbumsScreen';
 import AlbumDetailScreen from './src/screens/AlbumDetailScreen';
 import NowPlayingBar from './src/components/NowPlayingBar';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -185,7 +186,7 @@ function AppInner({ token: initialToken }: { token: string | null }) {
   );
 }
 
-export default function App() {
+function AppContent() {
   const [token, setToken] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
 
@@ -201,6 +202,14 @@ export default function App() {
     <PlayerProvider>
       <AppInner token={token} />
     </PlayerProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
 
